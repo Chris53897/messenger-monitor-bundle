@@ -17,7 +17,7 @@
                 {% for item in transports %}
                     <li class="nav-item position-relative mx-2" role="presentation">
                         {% if item|length %}
-                            <span class="z-2 position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                            <span class="z-2 position-absolute top-0 start-100 translate-middle badge rounded-pill {{ item.name == 'failed' ? 'bg-danger' : 'bg-primary' }}">
                                 {{ item|length }} <span class="visually-hidden">queued messages</span>
                             </span>
                         {% else %}
@@ -62,42 +62,42 @@
                         </tr>
                         </thead>
                         <tbody>
-                            {% for queued in transport.list %}
-                                <tr>
-                                    <td>
-                                        <abbr title="{{ queued.message }}">{{ queued.message.shortName }}</abbr>
-                                        {% if queued.message.description %}
-                                            <br><small class="text-secondary">{{ queued.message.description }}</small>
+                        {% for queued in transport.list %}
+                            <tr>
+                                <td>
+                                    <abbr title="{{ queued.message }}">{{ queued.message.shortName }}</abbr>
+                                    {% if queued.message.description %}
+                                        <br><small class="text-secondary">{{ queued.message.description }}</small>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if queued.dispatchedAt %}
+                                        {% if helper.timeFormatter %}
+                                            <abbr title="{{ queued.dispatchedAt|date('c') }}">{{ helper.timeFormatter.formatDiff(queued.dispatchedAt) }}</abbr>
+                                        {% else %}
+                                            {{ queued.dispatchedAt|date('c') }}
                                         {% endif %}
-                                    </td>
+                                    {% else %}
+                                        <em class="text-secondary">n/a</em>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% for tag in queued.tags %}
+                                        <span class="badge align-text-top text-bg-secondary">{{ tag }}</span>
+                                    {% endfor %}
+                                </td>
+                                {% if transport.isFailure %}
                                     <td>
-                                        {% if queued.dispatchedAt %}
-                                            {% if helper.timeFormatter %}
-                                                <abbr title="{{ queued.dispatchedAt|date('c') }}">{{ helper.timeFormatter.formatDiff(queued.dispatchedAt) }}</abbr>
-                                            {% else %}
-                                                {{ queued.dispatchedAt|date('c') }}
-                                            {% endif %}
+                                        {% if queued.exception %}
+                                            <strong class="text-danger"><abbr title="{{ queued.exception }}">{{ queued.exception.shortName }}</abbr>: {{ queued.exception.description }}</strong>
                                         {% else %}
                                             <em class="text-secondary">n/a</em>
                                         {% endif %}
-                                    </td>
-                                    <td>
-                                        {% for tag in queued.tags %}
-                                            <span class="badge align-text-top text-bg-secondary">{{ tag }}</span>
-                                        {% endfor %}
-                                    </td>
-                                    {% if transport.isFailure %}
-                                        <td>
-                                            {% if queued.exception %}
-                                                <strong class="text-danger"><abbr title="{{ queued.exception }}">{{ queued.exception.shortName }}</abbr>: {{ queued.exception.description }}</strong>
-                                            {% else %}
-                                                <em class="text-secondary">n/a</em>
-                                            {% endif %}
 
-                                        </td>
-                                    {% endif %}
-                                </tr>
-                            {% endfor %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
