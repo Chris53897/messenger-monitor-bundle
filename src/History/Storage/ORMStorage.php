@@ -91,7 +91,7 @@ final class ORMStorage implements Storage
     public function averageWaitTime(Specification $specification): ?float
     {
         $qb = $this
-            ->queryBuilderFor($specification)
+            ->queryBuilderFor($specification, false)
             ->select('AVG(m.receivedAt - m.dispatchedAt)')
         ;
 
@@ -101,7 +101,7 @@ final class ORMStorage implements Storage
     public function averageHandlingTime(Specification $specification): ?float
     {
         $qb = $this
-            ->queryBuilderFor($specification)
+            ->queryBuilderFor($specification, false)
             ->select('AVG(m.finishedAt - m.receivedAt)')
         ;
 
@@ -111,7 +111,7 @@ final class ORMStorage implements Storage
     public function count(Specification $specification): int
     {
         $qb = $this
-            ->queryBuilderFor($specification)
+            ->queryBuilderFor($specification, false)
             ->select('COUNT(m.finishedAt)')
         ;
 
