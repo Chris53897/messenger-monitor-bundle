@@ -7,5 +7,5 @@ parameters:
 
     ignoreErrors:
         # Can be dropped after minimum PHP Version is 8.2 or 8.3
-        - message: '#Cannot access offset [a-zA-Z] on array\|bool\|float\|int\|string\|UnitEnum#'
+        - message: '#Cannot access offset [a-zA-Z]+ on array\|bool\|float\|int\|string\|UnitEnum.#'
           path: src/DependencyInjection/ZenstruckMessengerMonitorExtension.php
