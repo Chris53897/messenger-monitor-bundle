@@ -273,6 +273,28 @@ You can now access the dashboard at: `/admin/messenger` or with the route `zenst
 
 #### `Snapshot`
 
+## Others
+
+### Hide Log-Entries
+
+While you run `php bin/console messenger:consume async [-vv]` you see a lot of messages like this one.
+
+```
+[cache] Lock acquired, now computing item "zenstruck_messenger_monitor.worker.xxx" ["key" => "zenstruck_messenger_monitor.worker.xxx"]
+```
+
+If you want to not display them, you can disable them with adding `"!cache"` to the console-channels in `config/packages/monolog.yaml`
+
+```yaml
+when@dev:
+  monolog:
+    handlers:
+      #...
+      console:
+        #...
+          channels: ["!event", "!doctrine", "!console", "!cache"]
+```
+
 ## Full Default Bundle Configuration
 
 ```yaml
