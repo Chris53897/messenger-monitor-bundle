@@ -17,7 +17,7 @@
                 {% for item in transports %}
                     <li class="nav-item position-relative mx-2" role="presentation">
                         {% if item|length %}
-                            <span class="z-2 position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                            <span class="z-2 position-absolute top-0 start-100 translate-middle badge rounded-pill {{ item.isFailure ? 'bg-danger' : 'bg-primary' }}">
                                 {{ item|length }} <span class="visually-hidden">queued messages</span>
                             </span>
                         {% else %}
