@@ -150,9 +150,10 @@ final class ResultNormalizerTest extends TestCase
             $this->assertSame(127, $result['exit_code']);
             $this->assertSame('', $result['output']);
 
-            # macOS does have this output (but not on ci)
-            if($result['error_output']!=='')
-            {$this->assertStringContainsString('exec: invalid: not found', $result['error_output']);}
+            // macOS does have this output (but not on ci)
+            if($result['error_output']!=='') {
+                $this->assertStringContainsString('exec: invalid: not found', $result['error_output']);
+            }
 
             return;
         }
